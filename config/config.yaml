@@ -1,0 +1,124 @@
+project:
+  name: "Dynamic Pricing Elasticity Engine for Short-Term Rentals"
+  version: "1.0.0"
+  market: "Austin, TX"
+  currency: "USD"
+  random_state: 42
+
+paths:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  external_dir: "data/external"
+  models_dir: "models"
+  duckdb_path: "data/processed/airbnb_elasticity.duckdb"
+
+data_sources:
+  inside_airbnb:
+    base_url: "http://data.insideairbnb.com/united-states/tx/austin"
+    snapshot_date: "2024-03-07"
+    files:
+      listings: "listings.csv.gz"
+      calendar: "calendar.csv.gz"
+      reviews: "reviews.csv.gz"
+      neighbourhoods_geojson: "neighbourhoods.geojson"
+  noaa:
+    base_url: "https://www.ncei.noaa.gov/cdo-web/api/v2"
+    station_id: "GHCND:USW00013904" # Austin Bergstrom International Airport
+    dataset_id: "GHCND"
+    start_date: "2023-01-01"
+    end_date: "2024-12-31"
+    variables:
+      - "TMAX" # Max temperature (tenths of degrees C)
+      - "TMIN" # Min temperature (tenths of degrees C)
+      - "PRCP" # Precipitation (tenths of mm)
+      - "AWND" # Average daily wind speed
+  eventbrite:
+    base_url: "https://www.eventbriteapi.com/v3"
+    categories:
+      - "music"
+      - "sports"
+      - "festivals"
+      - "conferences"
+    city: "Austin"
+    search_radius_km: 25
+
+preprocessing:
+  price_min: 15.0
+  price_max: 2500.0
+  minimum_reviews: 1
+  min_nights_threshold: 30
+  imputation:
+    review_score_strategy: "submarket_median"
+  spatial:
+    crs: "EPSG:4326"
+    projected_crs: "EPSG:3857"
+
+feature_engineering:
+  rolling_windows:
+    short_window_days: 7
+    medium_window_days: 14
+    long_window_days: 30
+  spatial_density:
+    radii_meters: [500, 1000, 2000]
+  amenity_nlp:
+    max_features: 60
+    min_df: 0.01
+    max_df: 0.85
+    svd_components: 6
+  seasonality:
+    fourier_order: 3
+    include_holiday_dummy: true
+
+econometrics:
+  dependent_variable: "log_demand_quantity" # log(days_booked_next_30d + 1)
+  endogenous_variable: "log_price"
+  instruments:
+    - "cost_shifter_cleaning_fee"
+    - "submarket_lag_competitor_price"
+    - "weather_energy_cost_shock"
+  exogenous_controls:
+    - "accommodates"
+    - "bedrooms"
+    - "bathrooms"
+    - "review_scores_rating"
+    - "reviews_per_month"
+    - "instant_bookable"
+    - "host_is_superhost"
+    - "distance_to_downtown_km"
+    - "competitor_density_1km"
+    - "event_intensity_score"
+    - "avg_temperature_c"
+    - "precipitation_flag"
+    - "amenity_luxury_index"
+    - "is_weekend"
+  fixed_effects:
+    entity: "listing_id"
+    time: "month_year"
+  diagnostics:
+    weak_instrument_threshold_f: 10.0
+    hausman_p_value_threshold: 0.05
+    sargan_p_value_threshold: 0.05
+
+segmentation:
+  n_clusters: 4
+  features:
+    - "accommodates"
+    - "bedrooms"
+    - "bathrooms"
+    - "amenity_luxury_index"
+    - "distance_to_downtown_km"
+    - "price_usd"
+  cluster_names:
+    0: "Budget Urban Studio"
+    1: "Midscale Standard Condo"
+    2: "Premium Family Home"
+    3: "Luxury Experiential Villa"
+
+backtesting:
+  holdout_start: "2024-01-01"
+  holdout_end: "2024-12-31"
+  marginal_cost_ratio: 0.18 # 18% variable turnover/cleaning/utility cost
+  price_adjustment_bounds:
+    lower_bound: 0.75 # Max 25% price discount
+    upper_bound: 1.35 # Max 35% price surge
+  bootstrap_iterations: 500
