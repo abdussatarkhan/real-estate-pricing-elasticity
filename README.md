@@ -1,5 +1,6 @@
 # Short-Term Rental Pricing Elasticity & Revenue Maximizer
 
+[![CI](https://github.com/abdussatarkhan/real-estate-pricing-elasticity/actions/workflows/ci.yml/badge.svg)](https://github.com/abdussatarkhan/real-estate-pricing-elasticity/actions)
 [![Econometrics](https://img.shields.io/badge/Econometrics-2SLS_IV-0056B3?style=for-the-badge)](https://en.wikipedia.org/wiki/Instrumental_variables_estimation) [![Python](https://img.shields.io/badge/Python-Statsmodels-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.statsmodels.org/)
 [![Author](https://img.shields.io/badge/Author-Abdussatar-E50914?style=for-the-badge&logo=github&logoColor=white)](https://github.com/abdussatarkhan)
 
@@ -55,6 +56,16 @@ source venv/bin/activate  # On Windows: .\venv\Scripts\activate
 # Install dependencies (if requirements.txt exists)
 pip install -r requirements.txt
 ```
+
+---
+
+## 🗺️ Roadmap & Upcoming Features
+
+- [x] Two-Stage Least Squares (2SLS) causal price elasticity modeling
+- [x] Neighborhood panel fixed effects estimation
+- [ ] Dynamic revenue optimization interactive web simulator
+- [ ] Spatial lag econometric modeling via PySAL
+- [ ] Automated competitive benchmark scraping engine
 
 ---
 
