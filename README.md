@@ -1,7 +1,7 @@
 # Short-Term Rental Pricing Elasticity & Revenue Maximizer
 
 [![Econometrics](https://img.shields.io/badge/Econometrics-2SLS_IV-0056B3?style=for-the-badge)](https://en.wikipedia.org/wiki/Instrumental_variables_estimation) [![Python](https://img.shields.io/badge/Python-Statsmodels-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.statsmodels.org/)
-[![Author](https://img.shields.io/badge/Author-Abdussatar-E50914?style=for-the-badge&logo=github&logoColor=white)](https://github.com/satarabdus692-bot)
+[![Author](https://img.shields.io/badge/Author-Abdussatar-E50914?style=for-the-badge&logo=github&logoColor=white)](https://github.com/abdussatarkhan)
 
 > **An econometric pricing elasticity and dynamic revenue optimization engine utilizing Two-Stage Least Squares (2SLS) instrumental variables and neighborhood panel fixed effects to estimate true causal price elasticity.**
 
@@ -42,7 +42,7 @@ graph TD
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/satarabdus692-bot/real-estate-pricing-elasticity.git
+git clone https://github.com/abdussatarkhan/real-estate-pricing-elasticity.git
 cd real-estate-pricing-elasticity
 ```
 
@@ -60,8 +60,8 @@ pip install -r requirements.txt
 
 ## 👨‍💻 Author & Profile
 
-Built and maintained by **Abdussatar** ([@satarabdus692-bot](https://github.com/satarabdus692-bot)).  
-For technical discussions, collaboration, or queries, feel free to reach out via [LinkedIn](https://www.linkedin.com/in/abdus-satar-5150813b5/) or [GitHub](https://github.com/satarabdus692-bot).
+Built and maintained by **Abdussatar** ([@abdussatarkhan](https://github.com/abdussatarkhan)).  
+For technical discussions, collaboration, or queries, feel free to reach out via [LinkedIn](https://www.linkedin.com/in/abdus-satar-5150813b5/) or [GitHub](https://github.com/abdussatarkhan).
 
 ---
 
